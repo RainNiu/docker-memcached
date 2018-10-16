@@ -1,7 +1,6 @@
 FROM alpine:3.8
 
-RUN apk --no-cache add tzdata  && \
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
@@ -70,7 +69,7 @@ RUN set -x \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 USER memcache
 EXPOSE 11211
